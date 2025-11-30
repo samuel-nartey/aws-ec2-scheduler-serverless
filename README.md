@@ -145,7 +145,7 @@ CUSTOM_AWS_REGION=us-east-1
 ---
 Screenshot:
 
-```
+
 # EventBridgeLambda Architecture
 
 This architecture demonstrates a **serverless automation solution** to manage EC2 instances using AWS services in a secure, decoupled, and scheduled manner.
