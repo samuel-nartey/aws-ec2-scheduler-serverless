@@ -330,8 +330,7 @@ def stop_instances():
 
     return notification_message
 
-```
----
+
 
 ## Step 5: Create EventBridge Rules
 
@@ -436,8 +435,8 @@ Implements least-privilege IAM.
 
 Easy to extend for additional workflows.
 
-```
-Optional Enhancements
+
+```Optional Enhancements
 
 Use EC2 tags to auto-discover instances.
 
@@ -446,5 +445,4 @@ Add CloudWatch logs for audit purposes.
 Trigger Lambda via API Gateway for manual control.
 
 Implement retry logic and error alerts.
-
 ```
