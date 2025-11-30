@@ -1,58 +1,88 @@
-12-Week AWS Challenge: EC2 Automation with Lambda, EventBridge, and SNS
+# 12-Week AWS Challenge: EC2 Automation with Lambda, EventBridge, and SNS
 
-
-Figure: High-level architecture of EC2 automation using Lambda, EventBridge, and SNS
+Table of Contents
 
 Project Overview
 
-This project automates the scheduled start and stop of multiple EC2 instances using AWS Lambda, Amazon EventBridge, and Amazon SNS. The automation helps organizations prevent unnecessary compute costs while ensuring that resources are available during business hours.
-
 Business Use Case
-
-Many companies run development, testing, or staging EC2 instances that are not needed 24 hours a day. Leaving these instances running overnight or on weekends increases operational costs. This solution:
-
-Automates EC2 lifecycle management.
-
-Ensures uptime during working hours and shutdown outside business hours.
-
-Sends email notifications when instances start or stop.
-
-Reduces manual intervention and the risk of human error.
-
-Follows least-privilege IAM and serverless design principles.
 
 Architecture
 
-EventBridge triggers Lambda based on a cron schedule.
-
-Lambda starts or stops EC2 instances and publishes results to SNS.
-
-SNS delivers notifications to subscribed email addresses.
-
-IAM Role controls the exact EC2 and SNS permissions required.
-
-Implementation Steps
 Step 1: Launch EC2 Instances
 
-Create three EC2 instances in your AWS region.
+Step 2: Create the Lambda IAM Role
+
+Step 3: Create SNS Topic
+
+Step 4: Create the Lambda Function
+
+Step 5: Create EventBridge Rules
+
+Step 6: Testing the Schedule
+
+Step 7: Test Lambda Manually
+
+Step 8: Verify Notifications
+
+
+
+## Project Overview
+
+This project automates the scheduled start and stop of multiple EC2 instances using serverless AWS services: Lambda, EventBridge, and SNS.
+
+Business Use Case
+
+Organizations often run development or test EC2 instances that don’t need to be active 24/7. This automation provides:
+
+Cost savings by shutting down instances outside working hours.
+
+Reliability, ensuring instances are up during business hours.
+
+Automation, removing manual intervention.
+
+Notifications via SNS about instance activity.
+
+Fully serverless and maintenance-free.
+
+## Architecture
+
+The automation workflow:
+
+**EventBridge** triggers a Lambda function based on a schedule.
+
+**Lambda** starts/stops EC2 instances and publishes status to SNS.
+
+**SNS** sends email notifications.
+
+**IAM Role** provides least-privilege access to Lambda.
+
+Screenshot / Diagram:
+
+
+## Step 1: Launch EC2 Instances
+
+Create three EC2 instances.
 
 Record their Instance IDs.
 
-Ensure the security group allows required traffic (SSH or HTTP).
+Ensure the security group allows required access.
 
-Screenshot placeholder: ./screenshots/ec2-instance-list.png
+Screenshot:
 
-Step 2: Create Lambda IAM Role (Least Privilege)
+---
 
-Go to IAM → Roles → Create Role.
+## Step 2: Create the Lambda IAM Role
 
-Choose AWS Service → Lambda.
+*Open IAM → Roles → Create Role.*
 
-Attach the custom policy below.
+Select AWS Service → Lambda.
 
-Name the role LambdaEC2AutomationRole.
+Attach the policy below.
 
-IAM Policy (Copy to IAM)
+Name the role: LambdaEC2AutomationRole.
+
+```json
+IAM Policy (JSON)
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -75,21 +105,24 @@ IAM Policy (Copy to IAM)
   ]
 }
 
+```
 
-Screenshot placeholder: ./screenshots/iam-role-policy.png
+Screenshot:
 
+---
 Step 3: Create SNS Topic
 
 Open SNS → Topics → Create Topic.
 
 Name it EC2AutomationTopic.
 
-Add an email subscription.
+Create an email subscription.
 
-Confirm subscription from your email.
+Confirm the subscription from your inbox.
 
-Screenshot placeholder: ./screenshots/sns-topic.png
-Screenshot placeholder: ./screenshots/sns-subscription.png
+Screenshots:
+
+---
 
 Step 4: Create the Lambda Function
 
@@ -97,124 +130,143 @@ Go to Lambda → Create Function.
 
 Name: EC2StartStopFunction.
 
-Runtime: Python 3.9 or later.
+Runtime: Python 3.9+.
 
-IAM Role: LambdaEC2AutomationRole.
+Attach the IAM role created earlier.
 
-Add these environment variables:
+Add environment variables:
 
+```
 INSTANCE_ID=i-abcde12345,i-f67890abcd,i-12345abcde
 SNS_TOPIC_ARN=arn:aws:sns:REGION:ACCOUNT_ID:EC2AutomationTopic
 CUSTOM_AWS_REGION=us-east-1
 
+```
+---
+Screenshot:
 
-Screenshot placeholder: ./screenshots/lambda-env-vars.png
-
+```
 Lambda Code Placeholder
-
-Paste your actual Lambda code in the section below when committing to GitHub.
-
-# -------------------------------
-# Paste your Lambda code here
-# -------------------------------
+<details> <summary>Click to view placeholder code</summary>
+# -----------------------------------------------------
+# Paste your final Lambda function code here
+# -----------------------------------------------------
 
 # Example placeholder:
-# def lambda_handler(event, context):
-#     pass
+def lambda_handler(event, context):
+    pass
 
-Step 5: Create EventBridge Rules
-Production Schedule
 
-Start instances Monday to Friday at 07:00 UTC.
+</details>
 
-Stop instances Monday to Friday at 19:00 UTC.
+```
+---
 
-Event Input for Start
+## Step 5: Create EventBridge Rules
+
+Production Schedule:
+```
+Action	Schedule
+Start	07:00 UTC, Monday–Friday
+Stop	19:00 UTC, Monday–Friday
+
+Event Input: Start
+
 {
   "action": "start"
 }
 
-Event Input for Stop
+
+Event Input: Stop
+
 {
   "action": "stop"
 }
 
+```
 
-Screenshot placeholder: ./screenshots/eventbridge-start-rule.png
-Screenshot placeholder: ./screenshots/eventbridge-stop-rule.png
+Screenshots:
 
-Step 6: Testing the Schedule (Cron Validation)
 
-Before applying production schedules, the following test schedules were used:
+
+---
+
+Step 6: Testing the Schedule
+
+Test Cron Schedule:
 
 Start every 2 minutes
 
 Stop every 4 minutes
 
-This confirmed:
+Purpose:
 
-Lambda triggered successfully.
+Validate EventBridge triggers Lambda.
 
-Instances started and stopped correctly.
+Confirm EC2 instances start/stop correctly.
 
-SNS notifications were delivered.
+Verify SNS notifications delivery.
 
-Screenshot placeholder: ./screenshots/eventbridge-testing-rules.png
+Screenshot:
 
-Step 7: Testing Lambda Manually
+---
 
-Open Lambda and create a test event.
+Step 7: Test Lambda Manually
 
-Use this JSON for manual start:
+Test Event: Start
 
+```
 {
   "action": "start"
 }
 
 
-Use this JSON for manual stop:
+Test Event: Stop
 
 {
   "action": "stop"
 }
+```
 
 
-Screenshot placeholder: ./screenshots/lambda-test.png
+Screenshot:
 
-Step 8: Verify Notifications
+---
 
-Check your email for SNS messages. Notifications include:
 
-Action performed.
+## Step 8: Verify Notifications
 
-Instance IDs.
+SNS sends an email containing:
 
-Public IPs of running instances.
+Action performed
 
-Screenshot placeholder: ./screenshots/email-notification.png
+Instance IDs affected
 
-Benefits
+Public IPs of running instances
 
-Reduces AWS compute costs.
+Screenshot:
 
-Automates repetitive operational tasks.
 
-Fully serverless and requires no maintenance.
+### Benefits
 
-Supports multiple instances using a comma-separated list.
+Reduces AWS cost by automating instance uptime.
 
-Follows least-privilege IAM principles.
+Supports multiple EC2 instances (comma-separated).
 
-Easily extended to additional schedules or environments.
+Sends automatic notifications.
+
+Fully serverless and maintenance-free.
+
+Implements least-privilege IAM.
+
+Easy to extend for additional workflows.
 
 Optional Enhancements
 
-Use instance tags to dynamically identify instances.
+Use EC2 tags to auto-discover instances.
 
-Add CloudWatch logs for detailed audits.
+Add CloudWatch logs for audit purposes.
 
-Trigger from external systems through API Gateway.
+Trigger Lambda via API Gateway for manual control.
 
-Add retry and failure notifications.
-
-End of README
+Implement retry logic and error alerts.
