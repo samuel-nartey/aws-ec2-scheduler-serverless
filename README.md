@@ -165,6 +165,7 @@ def lambda_handler(event, context):
 ## Step 5: Create EventBridge Rules
 
 Production Schedule:
+
 ```
 Action	Schedule
 Start	07:00 UTC, Monday–Friday
@@ -191,15 +192,17 @@ Screenshots:
 
 ---
 
-Step 6: Testing the Schedule
+## Step 6: Testing the Schedule
 
 Test Cron Schedule:
 
+```
 Start every 2 minutes
 
 Stop every 4 minutes
+```
 
-Purpose:
+*** Purpose: ***
 
 Validate EventBridge triggers Lambda.
 
@@ -211,11 +214,12 @@ Screenshot:
 
 ---
 
-Step 7: Test Lambda Manually
-
-Test Event: Start
+## Step 7: Test Lambda Manually
 
 ```
+Test Event: Start
+
+
 {
   "action": "start"
 }
@@ -226,23 +230,23 @@ Test Event: Stop
 {
   "action": "stop"
 }
-```
 
+```
 
 Screenshot:
 
----
 
+---
 
 ## Step 8: Verify Notifications
 
 SNS sends an email containing:
 
-Action performed
+#### Action performed
 
-Instance IDs affected
+#### Instance IDs affected
 
-Public IPs of running instances
+#### Public IPs of running instances
 
 Screenshot:
 
@@ -261,6 +265,7 @@ Implements least-privilege IAM.
 
 Easy to extend for additional workflows.
 
+```
 Optional Enhancements
 
 Use EC2 tags to auto-discover instances.
@@ -270,3 +275,5 @@ Add CloudWatch logs for audit purposes.
 Trigger Lambda via API Gateway for manual control.
 
 Implement retry logic and error alerts.
+
+```
