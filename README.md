@@ -436,8 +436,8 @@ Implements least-privilege IAM.
 Easy to extend for additional workflows.
 
 
-```Optional Enhancements
-
+### Optional Enhancements
+```
 Use EC2 tags to auto-discover instances.
 
 Add CloudWatch logs for audit purposes.
