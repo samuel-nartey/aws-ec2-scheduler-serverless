@@ -131,19 +131,19 @@ Record their Instance IDs.
 
 Ensure the security group allows required access.
 
-![ec2creation1](./ec2creation1.png)
+![ec2creation1](project_screenshots/ec2creation1.png)
 
 **EC2 Instance Creation**
 
-![ec2creation2](./ec2creation2.png)
+![ec2creation2](project_screenshots/ec2creation2.png)
 
 **EC2 Instance Creation**
 
-![ec2_userdatacreation](./ec2_userdatacreation.png)
+![ec2_userdatacreation](project_screenshots/ec2_userdatacreation.png)
 
 **Userdata for bootstrapping a simple website**
 
-![3sintacnesrunning](./3sintacnesrunning.png)
+![3sintacnesrunning](project_screenshots/3sintacnesrunning.png)
 
 **Instances created and running**
 
@@ -184,12 +184,12 @@ IAM Policy (JSON)
 }
 
 ```
-![LambdaInlineExecutionPolicy1](./LambdaInlineExecutionPolicy1.png)
+![LambdaInlineExecutionPolicy1](project_screenshots/LambdaInlineExecutionPolicy1.png)
 
 **Lambda execution role**
 
 
-![LambdaInlineExecutionPolicy1](./LambdaInlineExecutionPolicy1.png)
+![LambdaInlineExecutionPolicy1](project_screenshots/LambdaInlineExecutionPolicy1.png)
 
 **Lambda execution role**
 
@@ -207,19 +207,19 @@ Create an email subscription.
 Confirm the subscription from your inbox.
 
 ### Image: CreateSNSTopic
-![CreateSNSTopic](images/CreateSNSTopic.png)
+![CreateSNSTopic](project_screenshots/CreateSNSTopic.png)
 *Description: Screenshot showing the creation of the SNS topic used for notifications in the Lambda automation workflow.*
 
 
-![subcriptionconfirmation](./subcriptionconfirmation.png)
+![subcriptionconfirmation](project_screenshots/subcriptionconfirmation.png)
 
 **SNS Topic Creation**
 
-![subcriptionconfirmation1](./subcriptionconfirmation1.png)
+![subcriptionconfirmation1](project_screenshots/subcriptionconfirmation1.png)
 
 **Subscription confirmation**
 
-![subcriptionconfirmation2](./subcriptionconfirmation2.png)
+![subcriptionconfirmation2](project_screenshots/subcriptionconfirmation2.png)
 
 **Subscription confirmation**
 
@@ -245,20 +245,20 @@ CUSTOM_AWS_REGION=us-east-1
 ```
 
 ### Image: createfunction1
-![createfunction1](images/createfunction1.png)
+![createfunction1](project_screenshots/createfunction1.png)
 *Description: Screenshot showing the creation of the Lambda function `createfunction1`, including its configuration and setup.*
 
 
 ### Image: lambda
-![lambda](images/lambda.png)
+![lambda](project_screenshots/lambda.png)
 *Description: Screenshot showing the Lambda function configuration, code, or execution related to EC2 automation.*
 
 ### Image: lambda1
-![lambda1](images/lambda1.png)
+![lambda1](project_screenshots/lambda1.png)
 *Description: Screenshot of Lambda function `lambda1` showing its configuration or code for EC2 automation.*
 
 
-![lambdaenvironmentvariablenew](./lambdaenvironmentvariablenew.png)
+![lambdaenvironmentvariablenew](project_screenshots/lambdaenvironmentvariablenew.png)
 
 **Lambda environment variable configuration**
 
@@ -317,14 +317,41 @@ Event Input: Stop
 ![cron-schedules](project_screenshots/cron-schedules.png)
 *Description: Overview of all configured cron schedules for EC2 automation in the Lambda workflow.*
 
+---
 
 
+## Step 6: Test Lambda Manually
+
+```
+Test Event: Start
+
+
+{
+  "action": "start"
+}
+
+
+Test Event: Stop
+
+{
+  "action": "stop"
+}
+
+```
+![Lambda Test Stop](project_screenshots/lambda-teststop.png)
+*Manually testing the Lambda function using a stop event to validate EC2 instance shutdown.*
+
+
+![Lambda Test Start](project_screenshots/lambda-teststart.png)
+*Testing the Lambda function with a start event to verify automated EC2 instance startup.*
 
 ---
 
-## Step 6: Testing the Schedule
+
+## Step 7: Testing the Schedule
 
 **NB: This part of the project was carried out to test the functionality of the Lambda function and to demonstrate how EventBridge can trigger the function to execute its logic and publish a message to the subscriber via SNS. The main goal, automatically starting the EC2 instance at 7:00 AM and stopping it at 8:00 PM (or 7:00 PM) daily, is shown in Step 5. However, these screenshots reflect test runs rather than the full scheduled operation, with the start and stop of the instances occurring after 4 minutes and 2 minutes respectively.**
+
 
 Test Cron Schedule:
 
@@ -335,13 +362,6 @@ Stop every 4 minutes
 ```
 
 ### Image: schedule
-### Image: startinstance1
-![startinstance1](images/startinstance1.png)
-*Description: Email notification showing that the EC2 instance has started, including its Instance ID and public IP.*
-
-### Image: stopinstance2
-![stopinstance2](project_screenshots/stopinstance2.png)
-*Description: Email notification indicating the EC2 instance has been stopped, showing its Instance ID and previous IP.*
 
 ### Image: stopinstancerunning2
 ![stopinstancerunning2](project_screenshots/stopinstancerunning2.png)
@@ -360,32 +380,6 @@ Confirm EC2 instances start/stop correctly.
 
 Verify SNS notifications delivery.
 
-Screenshot:
-
----
-
-## Step 7: Test Lambda Manually
-
-```
-Test Event: Start
-
-
-{
-  "action": "start"
-}
-
-
-Test Event: Stop
-
-{
-  "action": "stop"
-}
-
-```
-
-Screenshot:
-
-
 ---
 
 ## Step 8: Verify Notifications
@@ -398,8 +392,12 @@ SNS sends an email containing:
 
 #### Public IPs of running instances
 
-Screenshot:
+![startinstance1](images/startinstance1.png)
+*Description: Email notification showing that the EC2 instance has started, including its Instance ID and public IP.*
 
+### Image: stopinstance2
+![stopinstance2](project_screenshots/stopinstance2.png)
+*Description: Email notification indicating the EC2 instance has been stopped, showing its Instance ID and previous IP.*
 
 ### Benefits
 
