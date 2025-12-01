@@ -32,118 +32,18 @@ This project automates the scheduled start and stop of multiple EC2 instances us
 
 Business Use Case
 
-Organizations often run development or test EC2 instances that don’t need to be active 24/7. This automation provides:
+*Organizations often run development or test EC2 instances that don’t need to be active 24/7. This automation provides:*
 
-Cost savings by shutting down instances outside working hours.
+**Cost savings by shutting down instances outside working hours.**
 
-Reliability, ensuring instances are up during business hours.
+**Reliability, ensuring instances are up during business hours.**
 
-Automation, removing manual intervention.
+**Automation, removing manual intervention.**
 
-Notifications via SNS about instance activity.
+**Notifications via SNS about instance activity.**
 
-Fully serverless and maintenance-free.
+**Fully serverless and maintenance-free.**
 
-## Architecture
-
-The automation workflow:
-
-**EventBridge** triggers a Lambda function based on a schedule.
-
-**Lambda** starts/stops EC2 instances and publishes status to SNS.
-
-**SNS** sends email notifications.
-
-**IAM Role** provides least-privilege access to Lambda.
-
-Screenshot / Diagram:
-
-
-## Step 1: Launch EC2 Instances
-
-Create three EC2 instances.
-
-Record their Instance IDs.
-
-Ensure the security group allows required access.
-
-Screenshot:
-
----
-
-## Step 2: Create the Lambda IAM Role
-
-*Open IAM → Roles → Create Role.*
-
-Select AWS Service → Lambda.
-
-Attach the policy below.
-
-Name the role: LambdaEC2AutomationRole.
-
-```json
-IAM Policy (JSON)
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:StartInstances",
-        "ec2:StopInstances",
-        "ec2:DescribeInstances"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "sns:Publish"
-      ],
-      "Resource": "arn:aws:sns:REGION:ACCOUNT_ID:EC2AutomationTopic"
-    }
-  ]
-}
-
-```
-
-Screenshot:
-
----
-Step 3: Create SNS Topic
-
-Open SNS → Topics → Create Topic.
-
-Name it EC2AutomationTopic.
-
-Create an email subscription.
-
-Confirm the subscription from your inbox.
-
-Screenshots:
-
----
-
-Step 4: Create the Lambda Function
-
-Go to Lambda → Create Function.
-
-Name: EC2StartStopFunction.
-
-Runtime: Python 3.9+.
-
-Attach the IAM role created earlier.
-
-Add environment variables:
-
-```
-INSTANCE_ID=i-abcde12345,i-f67890abcd,i-12345abcde
-SNS_TOPIC_ARN=arn:aws:sns:REGION:ACCOUNT_ID:EC2AutomationTopic
-CUSTOM_AWS_REGION=us-east-1
-
-```
----
-Screenshot:
 
 
 # EventBridgeLambda Architecture
@@ -218,117 +118,156 @@ The solution automates starting and stopping EC2 instances on a schedule while s
 5. The SNS Topic sends a notification to the subscribed **Gmail account**.
 6. This ensures all actions are automated, auditable, and secure.
 
+
+
+___
+___
+
+## Step 1: Launch EC2 Instances
+
+Create three EC2 instances.
+
+Record their Instance IDs.
+
+Ensure the security group allows required access.
+
+![ec2creation1](./ec2creation1.png)
+
+**EC2 Instance Creation**
+
+![ec2creation2](./ec2creation2.png)
+
+**EC2 Instance Creation**
+
+![ec2_userdatacreation](./ec2_userdatacreation.png)
+
+**Userdata for bootstrapping a simple website**
+
+![3sintacnesrunning](./3sintacnesrunning.png)
+
+**Instances created and running**
+
 ---
+
+## Step 2: Create the Lambda IAM Role
+
+*Open IAM → Roles → Create Role.*
+
+Select AWS Service → Lambda.
+
+Attach the policy below.
+
+Name the role: LambdaEC2AutomationRole.
+
+```json
+IAM Policy (JSON)
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:StartInstances",
+        "ec2:StopInstances",
+        "ec2:DescribeInstances"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "sns:Publish"
+      ],
+      "Resource": "arn:aws:sns:REGION:ACCOUNT_ID:EC2AutomationTopic"
+    }
+  ]
+}
+
+```
+![LambdaInlineExecutionPolicy1](./LambdaInlineExecutionPolicy1.png)
+
+**Lambda execution role**
+
+
+![LambdaInlineExecutionPolicy1](./LambdaInlineExecutionPolicy1.png)
+
+**Lambda execution role**
+
+
+---
+
+## Step 3: Create SNS Topic
+
+Open SNS → Topics → Create Topic.
+
+Name it EC2AutomationTopic.
+
+Create an email subscription.
+
+Confirm the subscription from your inbox.
+
+### Image: CreateSNSTopic
+![CreateSNSTopic](images/CreateSNSTopic.png)
+*Description: Screenshot showing the creation of the SNS topic used for notifications in the Lambda automation workflow.*
+
+
+![subcriptionconfirmation](./subcriptionconfirmation.png)
+
+**SNS Topic Creation**
+
+![subcriptionconfirmation1](./subcriptionconfirmation1.png)
+
+**Subscription confirmation**
+
+![subcriptionconfirmation2](./subcriptionconfirmation2.png)
+
+**Subscription confirmation**
+
+---
+
+## Step 4: Create the Lambda Function
+
+Go to Lambda → Create Function.
+
+Name: EC2StartStopFunction.
+
+Runtime: Python 3.9+.
+
+Attach the IAM role created earlier.
+
+Add environment variables:
+
+```
+INSTANCE_ID=ISTANCE_ID_1,ISTANCE_ID_2,INSTANCE_ID_3
+SNS_TOPIC_ARN=arn:aws:sns:REGION:ACCOUNT_ID:EC2AutomationTopic
+CUSTOM_AWS_REGION=us-east-1
+
+```
+
+### Image: createfunction1
+![createfunction1](images/createfunction1.png)
+*Description: Screenshot showing the creation of the Lambda function `createfunction1`, including its configuration and setup.*
+
+
+### Image: lambda
+![lambda](images/lambda.png)
+*Description: Screenshot showing the Lambda function configuration, code, or execution related to EC2 automation.*
+
+### Image: lambda1
+![lambda1](images/lambda1.png)
+*Description: Screenshot of Lambda function `lambda1` showing its configuration or code for EC2 automation.*
+
+
+![lambdaenvironmentvariablenew](./lambdaenvironmentvariablenew.png)
+
+**Lambda environment variable configuration**
+
 
 This architecture ensures **secure, scheduled, and observable control over EC2 resources** using serverless AWS services.
 
-import boto3
-import time
-from datetime import datetime
-import os
 
-# Environment variables
-instances = os.environ['INSTANCE_ID'].split(',')  # comma-separated instance IDs
-region = os.environ.get('CUSTOM_AWS_REGION', 'us-east-1')
-sns_topic_arn = os.environ.get('SNS_TOPIC_ARN')
-
-# AWS clients
-ec2 = boto3.client('ec2', region_name=region)
-sns = boto3.client('sns', region_name=region)
-
-
-def lambda_handler(event, context):
-    action = event.get("action", "").lower()
-
-    if action == "start":
-        return start_instances()
-    elif action == "stop":
-        return stop_instances()
-    else:
-        return {"error": "Invalid action. Use 'start' or 'stop'."}
-
-
-def start_instances():
-    start_time = datetime.utcnow()
-    print(f"Starting instance(s): {instances} at {start_time}")
-
-    # Start all instances
-    ec2.start_instances(InstanceIds=instances)
-
-    # Wait for instances to be running and collect public IPs
-    public_ips = {}
-    max_wait_time = 180  # seconds
-    wait_interval = 5    # seconds
-    elapsed_time = 0
-
-    while len(public_ips) < len(instances) and elapsed_time < max_wait_time:
-        time.sleep(wait_interval)
-        elapsed_time += wait_interval
-
-        instance_info = ec2.describe_instances(InstanceIds=instances)
-        for reservation in instance_info['Reservations']:
-            for inst in reservation['Instances']:
-                instance_id = inst['InstanceId']
-                ip = inst.get('PublicIpAddress')
-                if ip and instance_id not in public_ips:
-                    public_ips[instance_id] = ip
-
-        print("Waiting for public IP assignment...")
-
-    if public_ips:
-        notification_message = (
-            f"Hello Samuel,\n\nYour EC2 instances are up and running!\n"
-            f"Instance IDs and Public IPs:\n" +
-            "\n".join([f"{iid}: {ip}" for iid, ip in public_ips.items()])
-        )
-    else:
-        notification_message = (
-            f"Instances started at {start_time} but no public IPs were assigned "
-            f"within {max_wait_time} seconds."
-        )
-
-    print(notification_message)
-
-    if sns_topic_arn:
-        sns.publish(
-            TopicArn=sns_topic_arn,
-            Message=notification_message,
-            Subject="EC2 Instance Start Notification"
-        )
-
-    return notification_message
-
-
-def stop_instances():
-    print(f"Stopping instance(s): {instances}")
-    ec2.stop_instances(InstanceIds=instances)
-
-    # Get public IPs before stopping (optional, for reference)
-    instance_info = ec2.describe_instances(InstanceIds=instances)
-    public_ips = {}
-    for reservation in instance_info['Reservations']:
-        for inst in reservation['Instances']:
-            instance_id = inst['InstanceId']
-            ip = inst.get('PublicIpAddress')
-            if ip:
-                public_ips[instance_id] = ip
-
-    notification_message = (
-        f"Hi Samuel,\n\nYour EC2 instances have been stopped.\n"
-        f"Instance IDs:\n" + "\n".join(instances) +
-        (f"\nPublic IPs (before stop):\n" + "\n".join([f"{iid}: {ip}" for iid, ip in public_ips.items()]) if public_ips else "")
-    )
-
-    print(notification_message)
-
-    if sns_topic_arn:
-        sns.publish(
-            TopicArn=sns_topic_arn,
-            Message=notification_message,
-            Subject="EC2 Instance Stop Notification"
-        )
-
-    return notification_message
+[View the script](LambdaFunction.py)  
+*Refer to the `LambdaFunction.py` file for the Lambda function code.*
 
 
 
@@ -356,13 +295,36 @@ Event Input: Stop
 
 ```
 
-Screenshots:
+
+
+### Image: cronforstartinstance
+![cronforstartinstance](project_screenshots/cronforstartinstance.png)
+*Description: Screenshot showing the cron schedule configuration for starting EC2 instances.*
+
+### Image: cronforstartinstance1
+![cronforstartinstance1](project_screenshots/cronforstartinstance1.png)
+*Description: Another view of the cron schedule for starting EC2 instances, highlighting timing or configuration details.*
+
+### Image: cronforstartinstance3
+![cronforstartinstance3](project_screenshots/cronforstartinstance3.png)
+*Description: Screenshot showing an additional cron setup or variant for automated EC2 instance start.*
+
+### Image: cronforstartinstance4
+![cronforstartinstance4](project_screenshots/cronforstartinstance4.png)
+*Description: Screenshot illustrating a further cron schedule example for starting EC2 instances.*
+
+### Image: cron-schedules
+![cron-schedules](project_screenshots/cron-schedules.png)
+*Description: Overview of all configured cron schedules for EC2 automation in the Lambda workflow.*
+
 
 
 
 ---
 
 ## Step 6: Testing the Schedule
+
+**NB: This part of the project was carried out to test the functionality of the Lambda function and to demonstrate how EventBridge can trigger the function to execute its logic and publish a message to the subscriber via SNS. The main goal, automatically starting the EC2 instance at 7:00 AM and stopping it at 8:00 PM (or 7:00 PM) daily, is shown in Step 5. However, these screenshots reflect test runs rather than the full scheduled operation, with the start and stop of the instances occurring after 4 minutes and 2 minutes respectively.**
 
 Test Cron Schedule:
 
@@ -371,6 +333,24 @@ Start every 2 minutes
 
 Stop every 4 minutes
 ```
+
+### Image: schedule
+### Image: startinstance1
+![startinstance1](images/startinstance1.png)
+*Description: Email notification showing that the EC2 instance has started, including its Instance ID and public IP.*
+
+### Image: stopinstance2
+![stopinstance2](project_screenshots/stopinstance2.png)
+*Description: Email notification indicating the EC2 instance has been stopped, showing its Instance ID and previous IP.*
+
+### Image: stopinstancerunning2
+![stopinstancerunning2](project_screenshots/stopinstancerunning2.png)
+*Description: EC2 dashboard screenshot showing that the instance is currently running.*
+
+### Image: stoprunninginstance2
+![stoprunninginstance2](project_screenshots/stoprunninginstance2.png)
+*Description: EC2 dashboard screenshot showing that the instance has been stopped.*
+
 
 *** Purpose: ***
 
