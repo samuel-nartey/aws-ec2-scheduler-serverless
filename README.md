@@ -12,7 +12,7 @@ Architecture
 
 - [Project Overview](#project-overview)
 - [Business Use Case](#business-use-case)
-- [Architecture](#architecture)
+- [EventBridgeLambda Architecture](#eventbridgelambda-architecture)
 - [Step 1: Launch EC2 Instances](#step-1-launch-ec2-instances)
 - [Step 2: Create the Lambda IAM Role](#step-2-create-the-lambda-iam-role)
 - [Step 3: Create SNS Topic](#step-3-create-sns-topic)
@@ -28,7 +28,7 @@ Architecture
 
 This project automates the scheduled start and stop of multiple EC2 instances using serverless AWS services: Lambda, EventBridge, and SNS.
 
-Business Use Case
+## Business Use Case
 
 *Organizations often run development or test EC2 instances that don’t need to be active 24/7. This automation provides:*
 
