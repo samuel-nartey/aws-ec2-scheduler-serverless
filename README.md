@@ -1,6 +1,6 @@
 # 12-Week AWS Challenge: EC2 Automation with Lambda, EventBridge, and SNS
 
-Table of Contents
+
 
 Project Overview
 
@@ -8,21 +8,19 @@ Business Use Case
 
 Architecture
 
-Step 1: Launch EC2 Instances
+### Table of Contents
 
-Step 2: Create the Lambda IAM Role
-
-Step 3: Create SNS Topic
-
-Step 4: Create the Lambda Function
-
-Step 5: Create EventBridge Rules
-
-Step 6: Testing the Schedule
-
-Step 7: Test Lambda Manually
-
-Step 8: Verify Notifications
+- [Project Overview](#project-overview)
+- [Business Use Case](#business-use-case)
+- [Architecture](#architecture)
+- [Step 1: Launch EC2 Instances](#step-1-launch-ec2-instances)
+- [Step 2: Create the Lambda IAM Role](#step-2-create-the-lambda-iam-role)
+- [Step 3: Create SNS Topic](#step-3-create-sns-topic)
+- [Step 4: Create the Lambda Function](#step-4-create-the-lambda-function)
+- [Step 5: Create EventBridge Rules](#step-5-create-eventbridge-rules)
+- [Step 6: Test Lambda Manually](#step-6-test-lambda-manually)
+- [Step 7: Testing the Schedule](#step-7-testing-the-schedule)
+- [Step 8: Verify Notifications](#step-8-verify-notifications)
 
 
 
