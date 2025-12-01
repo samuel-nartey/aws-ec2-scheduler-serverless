@@ -390,7 +390,7 @@ SNS sends an email containing:
 
 #### Public IPs of running instances
 
-![startinstance1](images/startinstance1.png)
+![startinstance1](project_screenshots/startinstance1.png)
 *Description: Email notification showing that the EC2 instance has started, including its Instance ID and public IP.*
 
 ### Image: stopinstance2
