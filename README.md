@@ -32,15 +32,15 @@ This project automates the scheduled start and stop of multiple EC2 instances us
 
 *Organizations often run development or test EC2 instances that don’t need to be active 24/7. This automation provides:*
 
-**Cost savings by shutting down instances outside working hours.**
+-**Cost savings by shutting down instances outside working hours.**
 
-**Reliability, ensuring instances are up during business hours.**
+-**Reliability, ensuring instances are up during business hours.**
 
-**Automation, removing manual intervention.**
+-**Automation, removing manual intervention.**
 
-**Notifications via SNS about instance activity.**
+-**Notifications via SNS about instance activity.**
 
-**Fully serverless and maintenance-free.**
+-**Fully serverless and maintenance-free.**
 
 
 
